@@ -1,0 +1,46 @@
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb
+  namespace: bags-luggage
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  members: 3                # 3 for real HA; use 1 if this is just a demo/dev env
+  type: ReplicaSet
+  version: "6.0.5"
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+    - name: admin
+      db: admin
+      passwordSecretRef:
+        name: mongo-sec        # references the secret ESO created
+        key: password
+      roles:
+        - name: readWrite
+          db: luggagedb
+      scramCredentialsSecretName: mongo-scram-credentials
+  statefulSet:
+    spec:
+      volumeClaimTemplates:
+        - metadata:
+            name: data-volume
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            storageClassName: gp3
+            resources:
+              requests:
+                storage: 5Gi
+      template:
+        spec:
+          containers:
+            - name: mongod
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "300Mi"
+                limits:
+                  cpu: "300m"
+                  memory: "512Mi"
