@@ -58,8 +58,8 @@ module "eks" {
   node_max_size       = var.node_max_size
   node_desired_size   = var.node_desired_size
 
-  log_retention_days = var.log_retention_days
-    external_secrets_namespace            = var.external_secrets_namespace
+  log_retention_days                    = var.log_retention_days
+  external_secrets_namespace            = var.external_secrets_namespace
   external_secrets_service_account_name = var.external_secrets_service_account_name
   external_secrets_secret_path          = var.external_secrets_secret_path
 }
