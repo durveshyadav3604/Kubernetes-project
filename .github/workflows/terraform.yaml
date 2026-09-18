@@ -14,12 +14,13 @@ on:
 env:
   TF_VERSION: "1.14.8"
   AWS_REGION: "ap-south-1"
+  TF_INPUT: "false"
 
 jobs:
   terraform:
     name: Terraform ${{ github.event.inputs.action }}
     runs-on: ubuntu-latest
-    environment: production   # optional: use environment protection rules for destroy
+    environment: production
     defaults:
       run:
         working-directory: terraform_eks/main
@@ -41,19 +42,25 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Recreate terraform.tfvars
-        run: echo "${{ secrets.TFVARS_CONTENT }}" > terraform.tfvars
+        run: |
+          cat << 'EOF' > terraform.tfvars
+          ${{ secrets.TFVARS_CONTENT }}
+          EOF
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform Plan
         if: github.event.inputs.action == 'apply'
-        run: terraform plan -var-file=terraform.tfvars -out=tfplan
+        run: terraform plan -input=false -var-file=terraform.tfvars -out=tfplan
 
       - name: Terraform Apply
         if: github.event.inputs.action == 'apply'
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -input=false -auto-approve tfplan
 
       - name: Terraform Destroy
         if: github.event.inputs.action == 'destroy'
-        run: terraform destroy -var-file=terraform.tfvars -auto-approve
+        run: terraform destroy -input=false -var-file=terraform.tfvars -auto-approve
