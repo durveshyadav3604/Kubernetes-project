@@ -66,6 +66,7 @@ resource "aws_eks_access_policy_association" "admin" {
   access_scope {
     type = "cluster"
   }
+  depends_on = [aws_eks_access_entry.admin]
 }
 
 # Same idea, for the bastion's instance role - this is what actually makes
@@ -85,6 +86,7 @@ resource "aws_eks_access_policy_association" "bastion" {
   access_scope {
     type = "cluster"
   }
+  depends_on = [aws_eks_access_entry.bastion]
 }
 
 # Lets the bastion reach the cluster's API endpoint (kubectl) and SSH to
