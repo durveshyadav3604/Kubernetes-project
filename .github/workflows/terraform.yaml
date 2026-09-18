@@ -65,3 +65,7 @@ jobs:
       - name: Terraform Destroy
         if: github.event.inputs.action == 'destroy'
         run: terraform destroy -input=false -var-file=terraform.tfvars -auto-approve
+
+      - name: Cleanup tfvars
+        if: always()
+        run: rm -f terraform.tfvars
