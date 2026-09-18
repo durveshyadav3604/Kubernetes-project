@@ -42,7 +42,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Recreate terraform.tfvars
-        run: echo "${{ secrets.TFVARS_CONTENT }}" > terraform.tfvars
+        run: |
+          cat > terraform.tfvars << 'EOF'
+          ${{ secrets.TFVARS_CONTENT }}
+          EOF
 
       - name: Terraform Format Check
         working-directory: terraform_eks
