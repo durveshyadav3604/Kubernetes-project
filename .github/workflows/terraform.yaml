@@ -20,6 +20,9 @@ jobs:
     name: Terraform ${{ github.event.inputs.action }}
     runs-on: ubuntu-latest
     environment: production   # optional: use environment protection rules for destroy
+    defaults:
+      run:
+        working-directory: terraform_eks/main
 
     steps:
       - name: Checkout repo
