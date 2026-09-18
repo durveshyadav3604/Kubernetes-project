@@ -48,6 +48,7 @@ jobs:
           EOF
 
       - name: Terraform Format Check
+        working-directory: terraform_eks
         run: terraform fmt -check -recursive
 
       - name: Terraform Init
