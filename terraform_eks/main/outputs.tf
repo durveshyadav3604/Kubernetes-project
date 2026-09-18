@@ -37,7 +37,4 @@ output "bastion_ssh_command" {
 output "bastion_ssm_command" {
   value = "aws ssm start-session --target ${module.bastion.bastion_instance_id} --region ${var.region}"
 }
-output "external_secrets_role_arn" {
-  description = "Pass this to the External Secrets Operator's ServiceAccount annotation (eks.amazonaws.com/role-arn)"
-  value       = aws_iam_role.external_secrets.arn
-}
+
