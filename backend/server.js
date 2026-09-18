@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 5000;
    CORS CONFIG (FIXED)
 ======================= */
 const allowedOrigins = [
-  'http://awsinfra-alb-1320417330.ap-south-1.elb.amazonaws.com',
   'http://localhost:3000'
 ];
 
