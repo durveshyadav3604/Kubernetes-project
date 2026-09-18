@@ -42,7 +42,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Recreate terraform.tfvars
-        run: |
+        run: 
           cat << 'EOF' > terraform.tfvars
           ${{ secrets.TFVARS_CONTENT }}
           EOF
