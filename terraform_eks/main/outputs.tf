@@ -32,7 +32,7 @@ output "bastion_public_ip" {
 }
 output "bastion_ssh_command" {
   description = "Only works if bastion_key_name was set - otherwise use SSM (see aws_ssm_command output)"
-  value       = "ssh -i <your-key>.pem ec2-user@${module.bastion.bastion_public_ip}"
+  value       = "ssh -i linux-key2.pem ubuntu@${module.bastion.bastion_public_ip}"
 }
 output "bastion_ssm_command" {
   value = "aws ssm start-session --target ${module.bastion.bastion_instance_id} --region ${var.region}"
