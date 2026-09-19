@@ -18,6 +18,10 @@ output "alb_controller_role_arn" {
 output "ebs_csi_role_arn" {
   value = module.eks.ebs_csi_role_arn
 }
+output "external_secrets_role_arn" {
+  description = "Pass to the External Secrets Operator's ServiceAccount annotation (see README)"
+  value       = module.eks.external_secrets_role_arn
+}
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
@@ -37,4 +41,5 @@ output "bastion_ssh_command" {
 output "bastion_ssm_command" {
   value = "aws ssm start-session --target ${module.bastion.bastion_instance_id} --region ${var.region}"
 }
+
 
